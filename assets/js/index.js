@@ -20,7 +20,7 @@ opacity: 0;
 
 // ——— GAME ———
 const GRID_SIZE = 25;
-const EGG_EMOJIS = ['🥚', '🐣', '🌸', '🌼', '🍀'];
+const EGG_EMOJIS = ['🥚', '🥚', '🐣', '🥚', '🐣'];
 const EGG_COUNT = 5;
 let eggs = new Set();
 let found = 0;
@@ -28,7 +28,7 @@ let clicks = 0;
 let revealed = new Set();
 let gameOver = false;
 
-const CELL_CONTENTS = ['🌿', '🌱', '🍃', '🌾', '🪴'];
+const CELL_CONTENTS = ['🌸', '🌼', '🌺', '🌻', '🌷', '🪷', '💐', '🌹'];
 
 function randomSet(n, max) {
     const s = new Set();
@@ -116,23 +116,6 @@ animation-delay:${Math.random() * 0.2}s;
     }
 }
 
-// ——— SHARE ———
-function copyLink() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        const fb = document.getElementById('copy-feedback');
-        fb.textContent = '✅ Link wurde kopiert!';
-        setTimeout(() => fb.textContent = '', 3000);
-    }).catch(() => {
-        document.getElementById('copy-feedback').textContent = '🔗 ' + url;
-    });
-}
-
-function shareWhatsApp() {
-    const msg = encodeURIComponent('🐰 Frohe Ostern! Schau dir diese kleine Osterkarte an: ' + window.location.href);
-    window.open('https://wa.me/?text=' + msg, '_blank');
-}
-
 // ——— ROTATING QUOTES ———
 const quotes = [
     'Möge dieses Ostern dir genauso viel Freude bringen, wie du in das Leben anderer trägst. Frohe Ostern! 🐰',
@@ -143,24 +126,34 @@ const quotes = [
     'Wer sucht, der findet — nicht nur Ostereier, sondern auch Glück und Freude. 🍀',
 ];
 
-// Shuffle client-side so every Besucher eine andere Reihenfolge bekommt
-const shuffled = [...quotes].sort(() => Math.random() - 0.5);
-let quoteIndex = 0;
-let quoteInterval = null;
+// Prüfe ob ein Spruch per URL übergeben wurde (?quote=INDEX)
+const urlParams = new URLSearchParams(window.location.search);
+const urlQuoteIndex = urlParams.get('quote');
+const hasUrlQuote = urlQuoteIndex !== null && quotes[Number(urlQuoteIndex)] !== undefined;
+
+// Wenn URL-Quote vorhanden: zeige nur diesen, keine Rotation
+// Wenn nicht: shuffle und rotiere normal
+let shuffled, quoteIndex, quoteInterval, isStaticQuote;
+
+if (hasUrlQuote) {
+    shuffled = quotes;
+    quoteIndex = Number(urlQuoteIndex);
+    isStaticQuote = true;
+} else {
+    shuffled = [...quotes].sort(() => Math.random() - 0.5);
+    quoteIndex = 0;
+    isStaticQuote = false;
+}
 
 const quoteEl = document.getElementById('quote-text');
 const messageCard = document.querySelector('.message-card');
 
-// Set random starting quote immediately
-quoteEl.textContent = shuffled[0];
+quoteEl.textContent = shuffled[quoteIndex];
 
 function nextQuote() {
     quoteIndex = (quoteIndex + 1) % shuffled.length;
-
-    // Animate out
     quoteEl.classList.remove('animating-in');
     quoteEl.classList.add('animating-out');
-
     setTimeout(() => {
         quoteEl.textContent = shuffled[quoteIndex];
         quoteEl.classList.remove('animating-out');
@@ -169,7 +162,7 @@ function nextQuote() {
 }
 
 function startQuoteRotation() {
-    if (quoteInterval) return;
+    if (quoteInterval || isStaticQuote) return;
     quoteInterval = setInterval(nextQuote, 4500);
 }
 
@@ -178,7 +171,6 @@ function stopQuoteRotation() {
     quoteInterval = null;
 }
 
-// Only run when the card is actually visible — saves resources on mobile
 const quoteVisibilityObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -191,14 +183,36 @@ const quoteVisibilityObserver = new IntersectionObserver((entries) => {
 
 quoteVisibilityObserver.observe(messageCard);
 
+// ——— SHARE ———
+function getShareUrl() {
+    const currentText = quoteEl.textContent;
+    const originalIndex = quotes.indexOf(currentText);
+    const base = window.location.origin + window.location.pathname;
+    return originalIndex >= 0 ? `${base}?quote=${originalIndex}` : base;
+}
+
+function copyLink() {
+    const url = getShareUrl();
+    navigator.clipboard.writeText(url).then(() => {
+        const fb = document.getElementById('copy-feedback');
+        fb.textContent = '✅ Link wurde kopiert!';
+        setTimeout(() => fb.textContent = '', 3000);
+    }).catch(() => {
+        document.getElementById('copy-feedback').textContent = '🔗 ' + url;
+    });
+}
+
+function shareWhatsApp() {
+    const url = getShareUrl();
+    const msg = encodeURIComponent('🐰 Frohe Ostern! Schau dir diese kleine Osterkarte an: ' + url);
+    window.open('https://wa.me/?text=' + msg, '_blank');
+}
+
 // ——— SCROLL REVEAL ———
-// egg-cards get staggered slide-up
-const eggCards = document.querySelectorAll('.egg-card');
 const eggObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const cards = entry.target.querySelectorAll('.egg-card');
-            // If observing the grid wrapper, stagger all children
             cards.forEach((card, i) => {
                 card.style.transitionDelay = `${i * 0.1}s`;
                 card.classList.add('visible');
@@ -208,14 +222,9 @@ const eggObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1 });
 
-// Observe the eggs-grid wrapper so all cards animate together when grid enters view
 const eggsGrid = document.querySelector('.eggs-grid');
 if (eggsGrid) eggObserver.observe(eggsGrid);
 
-// message-card is handled by the generic observer below (has .reveal class)
-// but we also need it for the quoteVisibilityObserver — both run independently
-
-// Generic reveal for everything else (.reveal elements)
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
         if (e.isIntersecting) {
