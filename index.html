@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frohe Ostern 🐣</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/index.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Floating petals -->
+    <div id="petals"></div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="sky-clouds">
+            <div class="cloud"></div>
+            <div class="cloud"></div>
+            <div class="cloud"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="bunny-wrap">
+                <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Shadow -->
+                    <ellipse cx="70" cy="132" rx="30" ry="6" fill="rgba(0,0,0,0.08)" />
+                    <!-- Body -->
+                    <ellipse cx="70" cy="100" rx="32" ry="36" fill="#f5f0e8" />
+                    <!-- Head -->
+                    <circle cx="70" cy="62" r="26" fill="#f5f0e8" />
+                    <!-- Ears -->
+                    <ellipse cx="55" cy="30" rx="9" ry="22" fill="#f5f0e8" />
+                    <ellipse cx="55" cy="30" rx="5" ry="16" fill="#f8c8d0" />
+                    <ellipse cx="85" cy="30" rx="9" ry="22" fill="#f5f0e8" />
+                    <ellipse cx="85" cy="30" rx="5" ry="16" fill="#f8c8d0" />
+                    <!-- Eyes -->
+                    <circle cx="62" cy="60" r="4" fill="#3a2a1a" />
+                    <circle cx="78" cy="60" r="4" fill="#3a2a1a" />
+                    <circle cx="63.5" cy="58.5" r="1.5" fill="white" />
+                    <circle cx="79.5" cy="58.5" r="1.5" fill="white" />
+                    <!-- Nose & mouth -->
+                    <ellipse cx="70" cy="68" rx="3.5" ry="2.5" fill="#f48faa" />
+                    <path d="M 67 70 Q 70 74 73 70" stroke="#c87890" stroke-width="1.2" fill="none"
+                        stroke-linecap="round" />
+                    <!-- Cheeks -->
+                    <circle cx="57" cy="68" r="5" fill="#f9c4ca" opacity="0.5" />
+                    <circle cx="83" cy="68" r="5" fill="#f9c4ca" opacity="0.5" />
+                    <!-- Tummy -->
+                    <ellipse cx="70" cy="105" rx="16" ry="18" fill="#f9f0e0" />
+                    <!-- Paws -->
+                    <ellipse cx="52" cy="126" rx="10" ry="7" fill="#f5f0e8" />
+                    <ellipse cx="88" cy="126" rx="10" ry="7" fill="#f5f0e8" />
+                    <!-- Basket -->
+                    <ellipse cx="96" cy="108" rx="16" ry="11" fill="#d4a055" />
+                    <rect x="80" y="98" width="32" height="20" rx="6" fill="#e8b860" />
+                    <ellipse cx="96" cy="98" rx="16" ry="5" fill="#d4a055" />
+                    <!-- Eggs in basket -->
+                    <ellipse cx="88" cy="96" rx="6" ry="8" fill="#6ab4d8" />
+                    <ellipse cx="97" cy="94" rx="6" ry="8" fill="#f4845f" />
+                    <ellipse cx="106" cy="96" rx="6" ry="8" fill="#7bbf8a" />
+                    <!-- Basket handle -->
+                    <path d="M 82 98 Q 96 82 110 98" stroke="#d4a055" stroke-width="3" fill="none"
+                        stroke-linecap="round" />
+                </svg>
+            </div>
+
+            <h1>Frohe<br><em>Ostern!</em> 🌸</h1>
+            <p class="hero-sub">Ein frühlingshaftes Hallo für dich — voller Freude, Wärme und bunter Eier. 🐣</p>
+            <a href="#eier" class="btn btn-primary" style="text-decoration:none;">Los geht's ↓</a>
+        </div>
+
+        <!-- Grass -->
+        <div class="grass">
+            <svg class="grass-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M0 60 Q 20 20 40 55 Q 60 20 80 50 Q 100 15 120 55 Q 140 25 160 50 Q 180 10 200 55 Q 220 30 240 50 Q 260 18 280 55 Q 300 22 320 50 Q 340 15 360 55 Q 380 28 400 50 Q 420 12 440 55 Q 460 25 480 52 Q 500 20 520 55 Q 540 30 560 50 Q 580 16 600 55 Q 620 22 640 52 Q 660 18 680 55 Q 700 28 720 50 Q 740 12 760 55 Q 780 25 800 50 Q 820 20 840 55 Q 860 30 880 50 Q 900 15 920 55 Q 940 22 960 52 Q 980 18 1000 55 Q 1020 28 1040 50 Q 1060 14 1080 55 Q 1100 25 1120 50 Q 1140 20 1160 55 Q 1180 30 1200 50 Q 1220 15 1240 55 Q 1260 22 1280 52 Q 1300 18 1320 55 Q 1340 25 1360 50 Q 1380 20 1400 55 Q 1420 28 1440 50 L1440 120 L0 120 Z"
+                    fill="#7bbf8a" />
+                <path
+                    d="M0 75 Q 30 45 60 72 Q 90 45 120 70 Q 150 48 180 72 Q 210 42 240 70 Q 270 48 300 72 Q 330 44 360 70 Q 390 46 420 72 Q 450 42 480 70 Q 510 48 540 72 Q 570 45 600 70 Q 630 42 660 72 Q 690 48 720 70 Q 750 44 780 72 Q 810 46 840 70 Q 870 42 900 72 Q 930 48 960 70 Q 990 45 1020 72 Q 1050 42 1080 70 Q 1110 46 1140 72 Q 1170 42 1200 70 Q 1230 48 1260 72 Q 1290 44 1320 70 Q 1350 46 1380 72 Q 1410 42 1440 70 L1440 120 L0 120 Z"
+                    fill="#5aa068" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- EGGS SECTION -->
+    <section class="eggs-section" id="eier">
+        <div class="reveal">
+            <h2 class="section-title">Osterwünsche <em>für dich</em></h2>
+            <p class="section-sub">Was Ostern alles mitbringt ✨</p>
+        </div>
+
+        <div class="eggs-grid">
+            <div class="egg-card">
+                <span class="egg-icon">🌸</span>
+                <h3>Frühlingsfreude</h3>
+                <p>Möge der Frühling dir Wärme, Farben und neue Energie schenken.</p>
+            </div>
+            <div class="egg-card">
+                <span class="egg-icon">🍫</span>
+                <h3>Süße Momente</h3>
+                <p>Viel Schokolade, Lachen und unvergessliche Augenblicke.</p>
+            </div>
+            <div class="egg-card">
+                <span class="egg-icon">🐣</span>
+                <h3>Neuer Anfang</h3>
+                <p>Ostern ist die Zeit für Neustart, Hoffnung und frische Ideen.</p>
+            </div>
+            <div class="egg-card">
+                <span class="egg-icon">💛</span>
+                <h3>Herzliche Wärme</h3>
+                <p>Umgeben von lieben Menschen, die dir viel bedeuten.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EGG HUNT GAME -->
+    <section class="game-section">
+        <div class="reveal">
+            <h2 class="section-title">Kleine <em>Ostereiersuche</em></h2>
+            <p class="section-sub">Finde alle versteckten Eier! 🥚</p>
+        </div>
+
+        <div class="game-board reveal">
+            <div class="game-stats">
+                <div>
+                    <strong id="found-count">0</strong> / <strong id="total-eggs">5</strong>
+                    <span>Eier gefunden</span>
+                </div>
+                <div>
+                    <strong id="click-count">0</strong>
+                    <span>Klicks</span>
+                </div>
+            </div>
+            <div class="game-message" id="game-message">Klicke auf die Felder um Eier zu finden! 🔍</div>
+            <div class="game-grid" id="game-grid"></div>
+            <button class="btn btn-soft" onclick="resetGame()">🔄 Neu spielen</button>
+        </div>
+    </section>
+
+    <!-- MESSAGE SECTION -->
+    <section class="message-section">
+        <div class="reveal">
+            <h2 class="section-title">Ein Ostergruß <em>von Herzen</em></h2>
+            <p class="section-sub">Mit lieben Gedanken an dich 💌</p>
+        </div>
+
+        <div class="message-card reveal">
+            <p class="quote">
+                <span class="quote-mark">"</span>
+                <span id="quote-text">Möge dieses Ostern dir genauso viel Freude bringen, wie du in das Leben anderer trägst. Frohe Ostern! 🐰</span>
+                <span class="quote-mark">"</span>
+            </p>
+            <p class="signature">— Gesendet mit viel Liebe 🌼</p>
+        </div>
+
+        <div class="share-btns reveal">
+            <button class="btn btn-primary" onclick="copyLink()">📋 Link kopieren</button>
+            <button class="btn btn-soft" onclick="shareWhatsApp()">💬 WhatsApp teilen</button>
+        </div>
+        <p id="copy-feedback" style="color:var(--sage);margin-top:1rem;min-height:1.5rem;font-size:0.9rem;"></p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-eggs reveal">🥚🐣🌸🐰🌼</div>
+        <p class="reveal">Frohe Ostern! Mit Liebe gestaltet 🌷</p>
+    </footer>
+</body>
+
+</html>
