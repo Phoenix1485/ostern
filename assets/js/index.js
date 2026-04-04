@@ -237,3 +237,91 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // ——— INIT ———
 resetGame();
+
+// ——— LEADERBOARD ———
+// Uses Claude artifact shared storage so all visitors see the same data.
+// Key: "ostern-leaderboard-v1" (shared: true)
+// Value: JSON array of { name, clicks, date } sorted by clicks ascending
+
+const LEADERBOARD_KEY = 'ostern-leaderboard-v1';
+const MAX_ENTRIES = 10;
+
+async function loadLeaderboard() {
+    try {
+        const result = await window.storage.get(LEADERBOARD_KEY, true);
+        const entries = result ? JSON.parse(result.value) : [];
+        renderLeaderboard(entries);
+    } catch (e) {
+        renderLeaderboard([]);
+    }
+}
+
+function renderLeaderboard(entries) {
+    const tbody = document.getElementById('leaderboard-body');
+    if (!entries || !entries.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#bbb;padding:1rem;">Noch keine Einträge — sei der Erste! 🥚</td></tr>';
+        return;
+    }
+    const medals = ['🥇', '🥈', '🥉'];
+    tbody.innerHTML = entries.map((e, i) => `
+        <tr>
+            <td>${medals[i] || (i + 1)}</td>
+            <td>${escapeHtml(e.name)}</td>
+            <td>${e.clicks} Klick${e.clicks !== 1 ? 's' : ''}</td>
+            <td>${e.date}</td>
+        </tr>
+    `).join('');
+}
+
+async function submitScore() {
+    const nameInput = document.getElementById('player-name');
+    const feedback = document.getElementById('submit-feedback');
+    const name = nameInput.value.trim();
+
+    if (!name) {
+        feedback.style.color = 'var(--coral)';
+        feedback.textContent = '⚠️ Bitte gib deinen Namen ein.';
+        return;
+    }
+
+    if (!gameOver) {
+        feedback.style.color = 'var(--coral)';
+        feedback.textContent = '⚠️ Erst alle Eier finden, dann eintragen! 🥚';
+        return;
+    }
+
+    feedback.style.color = 'var(--sage)';
+    feedback.textContent = 'Wird gespeichert…';
+
+    try {
+        let entries = [];
+        try {
+            const result = await window.storage.get(LEADERBOARD_KEY, true);
+            if (result) entries = JSON.parse(result.value);
+        } catch (e) { /* noch leer */ }
+
+        const today = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        entries.push({ name, clicks, date: today });
+        entries.sort((a, b) => a.clicks - b.clicks);
+        entries = entries.slice(0, MAX_ENTRIES);
+
+        await window.storage.set(LEADERBOARD_KEY, JSON.stringify(entries), true);
+
+        renderLeaderboard(entries);
+        feedback.style.color = 'var(--sage)';
+        feedback.textContent = '✅ Eingetragen!';
+        nameInput.value = '';
+        setTimeout(() => feedback.textContent = '', 3000);
+    } catch (e) {
+        feedback.style.color = 'var(--coral)';
+        feedback.textContent = '❌ Fehler beim Speichern. Versuch es nochmal.';
+    }
+}
+
+function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// Initial laden + alle 15s auto-refresh
+loadLeaderboard();
+setInterval(loadLeaderboard, 15000);
