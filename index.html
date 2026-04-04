@@ -166,6 +166,35 @@
         <p id="copy-feedback" style="color:var(--sage);margin-top:1rem;min-height:1.5rem;font-size:0.9rem;"></p>
     </section>
 
+    <!-- LEADERBOARD -->
+    <section class="leaderboard-section">
+        <div class="reveal">
+            <h2 class="section-title">Bestenliste <em>🏆</em></h2>
+            <p class="section-sub">Wer hat die wenigsten Versuche gebraucht?</p>
+        </div>
+
+        <div class="leaderboard-card reveal">
+            <div class="leaderboard-name-row">
+                <input type="text" id="player-name" placeholder="Dein Name" maxlength="20" />
+                <button class="btn btn-primary" onclick="submitScore()">Eintragen</button>
+            </div>
+            <p id="submit-feedback" style="min-height:1.4rem;font-size:0.85rem;color:var(--sage);margin-top:0.5rem;"></p>
+            <table class="leaderboard-table" id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Versuche</th>
+                        <th>Datum</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <tr><td colspan="4" style="text-align:center;color:#bbb;padding:1rem;">Wird geladen…</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-eggs reveal">🥚🐣🌸🐰🌼</div>
