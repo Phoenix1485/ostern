@@ -32,7 +32,7 @@ body {
   }
 
   .section-inner {
-    @apply relative z-10 mx-auto max-w-6xl;
+    @apply relative z-20 mx-auto max-w-6xl;
   }
 
   .section-title {
@@ -205,13 +205,18 @@ body {
   }
 }
 
+.particle-layer {
+  z-index: 5;
+  overflow: hidden;
+}
+
 .petal {
   position: fixed;
-  z-index: 5;
+  z-index: 0;
   opacity: 0;
   pointer-events: none;
   animation: fallPetal linear infinite;
-  filter: drop-shadow(0 8px 14px rgba(122, 82, 48, 0.12));
+  filter: drop-shadow(0 10px 18px rgba(122, 82, 48, 0.18));
 }
 
 .petal svg {
@@ -256,7 +261,7 @@ body {
   }
 
   12% {
-    opacity: 0.85;
+    opacity: 0.92;
   }
 
   100% {

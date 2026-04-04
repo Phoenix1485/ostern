@@ -51,6 +51,7 @@ type Petal = {
   left: number;
   top: number;
   color: string;
+  shape: "bunny" | "egg";
   duration: number;
   delay: number;
   size: number;
@@ -192,16 +193,17 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 }
 
 function createPetals(): Petal[] {
-  return Array.from({ length: 24 }, (_, index) => ({
+  return Array.from({ length: 36 }, (_, index) => ({
     id: index,
     left: Math.random() * 100,
     top: Math.random() * -120,
-    color: pickRandom(PETAL_COLORS),
-    duration: 10 + Math.random() * 8,
-    delay: Math.random() * 12,
-    size: 18 + Math.random() * 16,
+    color: pickRandom(CONFETTI_COLORS),
+    shape: Math.random() > 0.5 ? "bunny" : "egg",
+    duration: 16 + Math.random() * 12,
+    delay: -Math.random() * 24,
+    size: 20 + Math.random() * 20,
     rotate: -30 + Math.random() * 60,
-    drift: (Math.random() - 0.5) * 140
+    drift: (Math.random() - 0.5) * 110
   }));
 }
 
@@ -299,6 +301,32 @@ function BunnyFlakeIcon() {
       <circle cx="53" cy="38" r="6" fill="currentColor" opacity="0.95" />
       <circle cx="19" cy="37" r="4.5" fill="currentColor" opacity="0.9" />
       <circle cx="32" cy="24" r="1.7" fill="white" opacity="0.55" />
+    </svg>
+  );
+}
+
+function EggFlakeIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="32" cy="35" rx="17" ry="22" fill="currentColor" />
+      <path
+        d="M20 27c4 3 8 3 12 0s8-3 12 0"
+        fill="none"
+        opacity="0.55"
+        stroke="white"
+        strokeLinecap="round"
+        strokeWidth="4"
+      />
+      <path
+        d="M22 39c4-2 7-2 10 0 4 2 7 2 10 0"
+        fill="none"
+        opacity="0.45"
+        stroke="white"
+        strokeLinecap="round"
+        strokeWidth="4"
+      />
+      <circle cx="26" cy="20" r="2.4" fill="white" opacity="0.4" />
+      <circle cx="39" cy="22" r="2.2" fill="white" opacity="0.35" />
     </svg>
   );
 }
@@ -567,8 +595,8 @@ export default function EasterExperience() {
       : "text-brown/50";
 
   return (
-    <main className="relative overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0">
+    <main className="relative isolate overflow-hidden">
+      <div aria-hidden="true" className="particle-layer pointer-events-none fixed inset-0">
         {petals.map((petal) => (
           <span
             key={petal.id}
@@ -587,7 +615,7 @@ export default function EasterExperience() {
               } as CSSProperties
             }
           >
-            <BunnyFlakeIcon />
+            {petal.shape === "egg" ? <EggFlakeIcon /> : <BunnyFlakeIcon />}
           </span>
         ))}
 
